@@ -7,8 +7,10 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-const contactsRouter = require('./routes/api/contacts')
+const contactsRouter = require('./routes/api/contacts');
+const authRouter = require('./routes/api/auth');
 
+app.use('/api/auth', authRouter);
 app.use('/api/contacts', contactsRouter);
 
 app.use('./routes/api', (req,res) => {
@@ -25,6 +27,10 @@ app.use((err, req, res, next) => {
       message: err.message
     })
   }
+
+  // if (err.message.includes('duplicate key error collection')) {
+  //   throw new Conflict('User with this email already registered')
+  // }
 
   if (err.name === "CastError") {
     return res.status(400).json({
