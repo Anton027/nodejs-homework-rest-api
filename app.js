@@ -2,16 +2,20 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const contactsRouter = require('./routes/api/contacts');
+const authRouter = require('./routes/api/auth');
+const userRouter = require('./routes/api/user');
+
 
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
-const contactsRouter = require('./routes/api/contacts');
-const authRouter = require('./routes/api/auth');
+
 
 app.use('/api/auth', authRouter);
 app.use('/api/contacts', contactsRouter);
+app.use('/api/user', userRouter)
 
 app.use('./routes/api', (req,res) => {
   return res.status(404).json({

@@ -11,12 +11,21 @@ const userSchema = new Schema({
         required: [true, 'Email is required'],
         unique: true,
     },
+    contacts: [
+        {
+            _id: Schema.Types.ObjectId,
+        }
+    ],
     subscription: {
         type: String,
         enum: ["starter", "pro", "business"],
         default: "starter"
     },
-    token: String
+    token: String,
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+    }
 },{
     timestamps: true,
     versionKey: false
