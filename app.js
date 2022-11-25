@@ -11,11 +11,14 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
+app.use('/public',express.static('public'));
+
 
 
 app.use('/api/auth', authRouter);
 app.use('/api/contacts', contactsRouter);
-app.use('/api/user', userRouter)
+app.use('/api/user', userRouter);
+
 
 app.use('./routes/api', (req,res) => {
   return res.status(404).json({
@@ -31,10 +34,6 @@ app.use((err, req, res, next) => {
       message: err.message
     })
   }
-
-  // if (err.message.includes('duplicate key error collection')) {
-  //   throw new Conflict('User with this email already registered')
-  // }
 
   if (err.name === "CastError") {
     return res.status(400).json({

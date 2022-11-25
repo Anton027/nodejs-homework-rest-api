@@ -2,14 +2,18 @@ const { User } = require('../models/user.model');
 const { Conflict,Unauthorized  } = require('http-errors')
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const gravatar = require('gravatar');
 const { JWT_SECRET } = process.env;
 
 async function register(req, res, next) {
     const { email, password } = req.body;
-    const user = new User({ email, password});
+    const user = new User({ email, password });
 
     try {
         await user.save();
+        const avatar = gravatar.url(email, { s: '100', r: 'x', d: 'retro' }, true);
+        user.avatarURL = avatar;
+        console.log(user);
     } catch (error) {
         if (error.message.includes('duplicate key error collection')) {
             throw new Conflict('Email in use')
@@ -29,7 +33,6 @@ async function register(req, res, next) {
 }
 
 async function login(req, res, next) {
-    // const authHeader = req.neaders.authorization || "";
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -50,6 +53,7 @@ async function login(req, res, next) {
         data: {
             token,
             user: {
+                _id: user._id,
                 email: user.email,
                 subscription: user.subscription,
             }
