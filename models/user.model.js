@@ -11,6 +11,7 @@ const userSchema = new Schema({
         required: [true, 'Email is required'],
         unique: true,
     },
+    avatarURL: String,
     contacts: [
         {
             _id: Schema.Types.ObjectId,
@@ -25,7 +26,8 @@ const userSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'user',
-    }
+    },
+    
 },{
     timestamps: true,
     versionKey: false
