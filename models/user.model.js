@@ -23,6 +23,15 @@ const userSchema = new Schema({
         default: "starter"
     },
     token: String,
+    verify: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: {
+        type: String,
+        // required: [true, 'Verify token is required'],
+        default: null,
+    },
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'user',

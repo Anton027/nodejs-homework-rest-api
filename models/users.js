@@ -1,7 +1,6 @@
 const { User } = require('./user.model')
 const fs = require('fs/promises');
 const path = require('path');
-// const jimp = require('jimp');
 
 async function getContact(req, res, next) {
     const { user } = req;
@@ -42,7 +41,6 @@ async function getCurrent(req, res, next) {
 }
 
 async function changeAvatarUrl(req, res, next) {
-    // const { user } = req;
 
     const newPath = path.join(__dirname,
         '../public/avatars/', req.file.filename);
@@ -56,9 +54,6 @@ async function changeAvatarUrl(req, res, next) {
 
     const savedUserAvatarUrl = await User.findByIdAndUpdate(userId,
         { avatarURL: userAvatar }, { new: true });
-    
-    // const savedUserAvatarUrlResize = await jimp.read(savedUserAvatarUrl); 
-    // savedUserAvatarUrlResize.contain(250, 250);
 
     return res.status(200).json({
         data: {
